@@ -47,6 +47,34 @@ async function run(){
            const result =await serviceCollection.insertOne(newSevice)
            res.send(result);
        });
+
+       //update items
+       
+       app.put('/service:id', async(req, res) =>{
+           const id = req.params.id;
+           const updateItem =req.body;
+           const filter ={_id: ObjectId(id)};
+           const options= {upsert: true };
+           const updatedDoc = {
+               $set:{
+                quantity:updateItem.quantity
+               }
+           };
+           const result =await serviceCollection.updateOne(filter, updatedDoc, options);
+           res.send(result);
+       })
+
+
+
+
+
+
+
+
+
+
+
+
        //Delete items
        app.delete('/service/:id', async(req, res) =>{
            const id = req.params.id;
