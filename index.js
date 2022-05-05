@@ -28,9 +28,11 @@ async function run() {
 
         await client.connect();
         const serviceCollection = client.db('fruits').collection('service');
+        
+
         app.get('/service', async (req, res) => {
 
-            const email = req.query?.email;
+            const email = req.query.email;
             const query = { email: email };
 
             // const query = {};
@@ -42,12 +44,13 @@ async function run() {
 
 
         // app.get('/service', async (req, res) => {
-        //     const email = req.query?.email;
+        //     // const email = req.query?.email;
 
-        //     const query = { email: email };
+        //     // const query = { email: email };
+            
+        //     const query = {};
 
-
-        //     const cursor = serviceCollection.find(query);
+        //     const cursor = myCollection.find(query);
         //     const service = await cursor.toArray();
         //     res.send(service);
 
@@ -66,6 +69,8 @@ async function run() {
             const service = await serviceCollection.findOne(query);
             res.send(service);
         });
+
+
         //post items
         app.post('/service', async (req, res) => {
             const newSevice = req.body;
@@ -116,6 +121,50 @@ async function run() {
             res.send(result);
 
         });
+
+
+        //quantity
+
+        // app.put('/service/:id', async (req, res) => {
+        //     const id =req.params.id;
+        //     const updateUser = req.body;
+        //     const filter = {_id:ObjectId(id)};
+        //     const options = {upsert:true};
+        //     const updateDoc = {
+        //         $set: {
+        //             quantity:updateUser.quantity,
+        //         },
+
+        //     };
+        //     const result = await serviceCollection.updateOne(filter, updateDoc, options);
+        //     res.send(request)
+        // })
+
+
+        //quantaty
+
+        app.put('/service:id', async (req, res) => {
+            const id = req.params.id;
+            const updateItem = req.body;
+            const filter = { _id: ObjectId(id) };
+            const options = { upsert: true };
+            const updatedDoc = {
+                $set: {
+                    quantity: updateItem.quantity
+                }
+            };
+            const result = await serviceCollection.updateOne(filter, updatedDoc, options);
+            res.send(result);
+        })
+
+
+
+
+
+
+
+
+
 
     }
     finally {
