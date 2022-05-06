@@ -1,7 +1,7 @@
 const { request } = require('express');
 const express = require('express');
 const cors = require('cors');
-const jwt = require('jsonwebtoken');
+
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const { query } = require('express');
 require('dotenv').config();
@@ -14,12 +14,6 @@ app.use(cors());
 app.use(express.json());
 
 
-// for json token 
-function verifyJwt(req, res, next){
-    const authHeader = req.headers.authorization;
-    console.log('inside verifyJWT', authHeader);
-    next();
-}
 
 
 
@@ -47,46 +41,13 @@ async function run() {
         const serviceCollection = client.db('fruits').collection('service');
         
 
-        // Auth
-        app.get('/login', async(req, res) =>{
-            const user = req.body;
-            const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-                expiresIn: '1d'
-            });
-            res.send({accessToken});
 
-        })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        app.get('/service', verifyJwt, async (req, res) => {
-
-            const authHeader = req.headers.authorization;
-            console.log(authHeader);
-
+        app.get('/service', async (req, res) => {
 
             const email = req.query.email;
             const query = { email: email };
 
-
-
-
-
-            //const query = {};
+            // const query = {};
             const cursor = serviceCollection.find(query);
             const service = await cursor.toArray();
             res.send(service);
