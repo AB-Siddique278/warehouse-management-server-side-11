@@ -57,11 +57,6 @@ async function run() {
 
 
 
-
-
-
-
-
         app.get('/myitems', async (req, res) => {
             // const email = req.query?.email;
 
@@ -69,9 +64,9 @@ async function run() {
             
             const query = {};
 
-            const cursor = myCollection.find(query);
-            const service = await cursor.toArray();
-            res.send(service);
+            const cursor = serviceCollection.find(query);
+            const result = await cursor.toArray();
+            res.send(result);
 
         });
 
