@@ -141,4 +141,6 @@ app.get('/', (req, res) => {
 
 app.listen(port, () => {
     console.log('Leasing to port', port);
+    console.log('running ');
 })
+
